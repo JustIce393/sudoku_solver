@@ -1,0 +1,5 @@
+﻿sudoku_solver.exe
+*.exe
+*.o
+__pycache__/
+*.pyc
