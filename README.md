@@ -90,22 +90,4 @@ sudoku_solver/
 └── run_gui.bat         <- Windows one-click start script
 ```
 
----
 
-## 💡 SDE Interview Q&A
-
-### Q1: Why is Dancing Links (DLX) better than traditional backtracking for Sudoku?
-> Traditional backtracking solvers scan cells one-by-one and guess numbers, checking validity at each step. This takes \(O(N^2)\) checks per guess and can do a lot of repetitive validation. In contrast, DLX models all constraints up-front in a matrix. Backtracking is done by manipulating pointer references in a linked list. Covering a column and row detaches them from the matrix, and backtracking simply reattaches them, which takes \(O(1)\) time. There is no array copy, cell scanning, or validation checks during the search.
-
-### Q2: Explain how "covering" and "uncovering" work in DLX.
-> Knuth's key insight was that a node can be removed from a circular doubly linked list and later restored using only its own links, without knowing its neighbors.
-> - **Covering (Removing):**
->   `node.left.right = node.right`
->   `node.right.left = node.left`
-> - **Uncovering (Restoring):**
->   `node.left.right = node`
->   `node.right.left = node`
-> This allows the algorithm to quickly hide branches of the search tree during depth-first search, and restore them when backtracking.
-
-### Q3: How do you handle pre-filled numbers (clues) in the DLX matrix?
-> When a Sudoku board contains clues, we first locate the row corresponding to that clue (e.g. Row for Cell (R1, C1) = Value 5). We then explicitly cover that column and all other columns that are satisfied by this candidate (cell, row, col, and box constraints) before the search begins. The search is then performed only on the remaining uncovered constraints, drastically shrinking the search space.
